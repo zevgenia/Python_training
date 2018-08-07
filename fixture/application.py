@@ -3,6 +3,7 @@ from fixture.session import SessionHelper
 from fixture.group import GroupHelper
 from fixture.contact import ContactHelper
 
+#Класс-менеджер, который инициализирует всех помощников
 class Applicaton:
 
     # создание фикстуры, инициализация драйвера
