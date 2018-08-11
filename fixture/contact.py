@@ -1,8 +1,9 @@
 
-#Помощник контактов, содержит все вспомогательные методы, которые относятся к работе с контактами
+
+# Помощник контактов, содержит все вспомогательные методы, которые относятся к работе с контактами
 class ContactHelper:
 
-    def __init__(self, app): #конструктор, в качестве параметра принимает ссылку на фикстуру
+    def __init__(self, app): # конструктор, в качестве параметра принимает ссылку на фикстуру
         self.app = app
 
     def create(self, contact):
@@ -22,4 +23,4 @@ class ContactHelper:
 
     def return_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("home page").click()
+        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()

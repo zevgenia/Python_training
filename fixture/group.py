@@ -1,8 +1,9 @@
 
-#Помощник групп, содержит все вспомогательные методы, которые относятся к работе с группами
+
+# Помощник групп, содержит все вспомогательные методы, которые относятся к работе с группами
 class GroupHelper:
 
-    def __init__(self, app): #конструктор, в качестве параметра принимает ссылку на фикстуру
+    def __init__(self, app): # конструктор, в качестве параметра принимает ссылку на фикстуру
         self.app = app
 
     def open_groups_page(self):
@@ -12,7 +13,7 @@ class GroupHelper:
     def create(self, group):
         wd = self.app.wd
         self.open_groups_page()
-        # init goup creation
+        # init group creation
         wd.find_element_by_name("new").click()
         # fill group
         wd.find_element_by_name("group_name").click()
@@ -31,12 +32,13 @@ class GroupHelper:
     def delete_first_group(self):
         wd = self.app.wd
         self.open_groups_page()
-        #select first group
+        # select first group
         wd.find_element_by_name("selected[]").click()
-        #submit deletion
+        # submit deletion
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
     def return_to_groups_page(self):
         wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
+        wd.find_element_by_xpath("//div[@class='msgbox']//a[.='group page']").click()
+        #click(By.xpath("//div[@class='msgbox']//a[.='group page']"));
