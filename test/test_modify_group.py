@@ -1,5 +1,3 @@
-
-
 from model.group import Group
 
 
