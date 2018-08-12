@@ -49,7 +49,7 @@ class ContactHelper:
 
     def go_to_home_page(self):
         wd = self.app.wd
-        if not (wd.find_element_by_name("searchstring")):
+        if not (wd.current_url.endswith("/index.php") and wd.find_element_by_xpath("//div[@id='search-az']/form/input")):
             wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
 
     # посчитать сколько чек-боксов на странице
