@@ -10,21 +10,9 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_home_page()
         wd.find_element_by_link_text("add new").click()
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("middlename").click()
-        wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(contact.middlename)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
         self.return_to_home_page()
-
-    def return_to_home_page(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -36,21 +24,29 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.return_to_home_page()
 
-    def modify_first_contact(self, contact):
+    def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
         self.return_to_home_page()
         # select first contact
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
-        # edit contact form
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.firstname)
-        wd.find_element_by_name("middlename").click()
-        wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(contact.middlename)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        self.fill_contact_form(new_contact_data)
         # submit update
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
+
+    def fill_contact_form(self, contact):
+        wd = self.app.wd
+        self.change_field_value("firstname", contact.firstname)
+        self.change_field_value("middlename", contact.middlename)
+        self.change_field_value("lastname", contact.lastname)
+
+    def change_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
+
+    def return_to_home_page(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
