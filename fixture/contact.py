@@ -8,31 +8,31 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
-        self.return_to_home_page()
+        self.go_to_home_page()
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
-        self.return_to_home_page()
+        self.go_to_home_page()
 
     def delete_first_contact(self):
         wd = self.app.wd
         # select first contact
-        self.return_to_home_page()
+        self.go_to_home_page()
         wd.find_element_by_name("selected[]").click()
         # submit delete
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
-        self.return_to_home_page()
+        self.go_to_home_page()
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
-        self.return_to_home_page()
+        self.go_to_home_page()
         # select first contact
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_contact_form(new_contact_data)
         # submit update
         wd.find_element_by_name("update").click()
-        self.return_to_home_page()
+        self.go_to_home_page()
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -47,12 +47,13 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def return_to_home_page(self):
+    def go_to_home_page(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
+        if not (wd.find_element_by_name("searchstring")):
+            wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
 
     # посчитать сколько чек-боксов на странице
     def count(self):
         wd = self.app.wd
-        self.return_to_home_page()
+        self.go_to_home_page()
         return len(wd.find_elements_by_name("selected[]"))
