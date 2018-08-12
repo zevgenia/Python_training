@@ -8,6 +8,7 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
+        self.return_to_home_page()
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -28,6 +29,7 @@ class ContactHelper:
     def delete_first_contact(self):
         wd = self.app.wd
         # select first contact
+        self.return_to_home_page()
         wd.find_element_by_name("selected[]").click()
         # submit delete
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
@@ -36,6 +38,7 @@ class ContactHelper:
 
     def modify_first_contact(self, contact):
         wd = self.app.wd
+        self.return_to_home_page()
         # select first contact
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         # edit contact form
