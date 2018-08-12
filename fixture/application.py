@@ -11,7 +11,6 @@ class Application:
     def __init__(self):
         # self.wd = WebDriver()
         self.wd = WebDriver(capabilities={"marionette": False})
-        self.wd.implicitly_wait(5)
         # конструирование помощников, передаем ссылку на саму фикстуру
         self.session = SessionHelper(self)# помощник сесссий получает ссылку на объект класса Application
         self.group = GroupHelper(self)# помощник групп получает ссылку на объект класса Application
