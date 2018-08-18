@@ -1,4 +1,4 @@
-
+from model.contact import Contact
 
 # Помощник контактов, содержит все вспомогательные методы, которые относятся к работе с контактами
 class ContactHelper:
@@ -57,3 +57,14 @@ class ContactHelper:
         wd = self.app.wd
         self.go_to_home_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contacts_list(self):
+        wd = self.app.wd
+        self.go_to_home_page()
+        listcontacts = []
+        for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody//tr[@name='entry']"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            listcontacts.append(Contact(lastname=text, id=id))
+        return listcontacts
+
