@@ -1,4 +1,4 @@
-
+from model.group import Group
 
 # Помощник групп, содержит все вспомогательные методы, которые относятся к работе с группами
 class GroupHelper:
@@ -66,3 +66,14 @@ class GroupHelper:
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    # посчитать количество групп на странице
+    def get_groups_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groupslist = []
+        for element in wd.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            groupslist.append(Group(name=text, id=id))
+        return groupslist
