@@ -2,11 +2,11 @@ from model.contact import Contact
 
 
 def test_modify_first_contact1(app):
-    old_contacts = app.contact.get_contacts_list()
     contact = Contact(firstname="Анна", middlename="Ивановна", lastname="Иванова")
-    contact.id = old_contacts[0].id #добаляем недостающий id
     if app.contact.count() == 0:
         app.contact.create(contact)
+    old_contacts = app.contact.get_contacts_list()
+    contact.id = old_contacts[0].id #добаляем недостающий id
     app.contact.modify_first_contact(contact)
     new_contacts = app.contact.get_contacts_list()
     assert len(old_contacts) == len(new_contacts)
