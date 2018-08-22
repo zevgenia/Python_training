@@ -17,15 +17,21 @@ class ContactHelper:
         self.contact_cash = None
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
-        # select first contact
         self.go_to_home_page()
-        wd.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(index)
         # submit delete
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.go_to_home_page()
         self.contact_cash = None
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
