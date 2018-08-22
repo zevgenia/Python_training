@@ -14,6 +14,7 @@ class ContactHelper:
         self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
         self.go_to_home_page()
+        self.contact_cash = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -24,6 +25,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
         self.go_to_home_page()
+        self.contact_cash = None
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
@@ -34,6 +36,7 @@ class ContactHelper:
         # submit update
         wd.find_element_by_name("update").click()
         self.go_to_home_page()
+        self.contact_cash = None
 
     def fill_contact_form(self, contact):
         wd = self.app.wd
@@ -59,14 +62,18 @@ class ContactHelper:
         self.go_to_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cash = None
+
+    # получение списка контактов со страницы
     def get_contacts_list(self):
-        wd = self.app.wd
-        self.go_to_home_page()
-        listcontacts = []
-        for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody//tr[@name='entry']"):
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            lastname = element.find_element_by_xpath("td[2]").text
-            firstname = element.find_element_by_xpath("td[3]").text
-            listcontacts.append(Contact(lastname=lastname, firstname=firstname, id=id))
-        return listcontacts
+        if self.contact_cash is None:
+            wd = self.app.wd
+            self.go_to_home_page()
+            self.contact_cash = []
+            for element in wd.find_elements_by_xpath("//table[@id='maintable']/tbody//tr[@name='entry']"):
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                lastname = element.find_element_by_xpath("td[2]").text
+                firstname = element.find_element_by_xpath("td[3]").text
+                self.contact_cash.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return list(self.contact_cash)
 
