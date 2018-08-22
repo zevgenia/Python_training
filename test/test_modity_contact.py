@@ -7,21 +7,17 @@ def test_modify_some_contact(app):
     if app.contact.count() == 0:
         app.contact.create(contact)
     old_contacts = app.contact.get_contacts_list() # считываем старый список со страницы
-    index = randrange(len(old_contacts))
+    index = randrange(len(old_contacts)-1)
     contact.id = old_contacts[index].id #добавляем недостающий id в объект типа контакт
     app.contact.modify_contact_by_index(index, contact) # передаем объект в функцию модификации
     new_contacts = app.contact.get_contacts_list() # считываем новый список со страницы
     assert len(old_contacts) == app.contact.count()
     old_contacts[index] = contact # меняем  контакт в старом списке вручную
-    print(contact)
-    print(old_contacts[index])
-    print("\nold_contacts", old_contacts)
-    print("new_contacts", new_contacts)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
 
 def test_modify_first_contact(app):
-    contact = Contact(firstname="Анна", lastname="Иванова")# создаем объект контакт
+    contact = Contact(firstname="Елена", lastname="Краснова")# создаем объект контакт
     if app.contact.count() == 0:
         app.contact.create(contact)
     old_contacts = app.contact.get_contacts_list() # считываем старый список со страницы
@@ -31,8 +27,7 @@ def test_modify_first_contact(app):
     assert len(old_contacts) == app.contact.count()
     old_contacts[0] = contact # меняем первый контакт в старом списке вручную
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
-    print("\nold_contacts", old_contacts)
-    print("new_contacts", new_contacts)
+
 
 #def test_modify_first_contact2(app):
 #    old_contacts = app.contact.get_contacts_list()
