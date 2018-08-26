@@ -95,6 +95,6 @@ class ContactHelper:
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
         self.go_to_home_page()
-        row = wd.find_elements_by_name("entry")[(index+2)]
+        row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()

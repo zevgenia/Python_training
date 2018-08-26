@@ -13,4 +13,6 @@ def test_delete_first_contact(app):
     assert len(old_contacts) - 1 == app.contact.count()
     old_contacts[index:index+1] = []
     assert old_contacts == new_contacts
+    print("\nold_contacts", old_contacts)
+    print("new_contacts", new_contacts)
 
