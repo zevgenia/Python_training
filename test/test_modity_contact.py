@@ -3,8 +3,8 @@ from random import randrange
 
 
 def test_modify_some_contact(app):
-    contact = Contact(firstname="Анна", lastname="Иванова", address="ул.Бабушкина, д.18", homephone="(495)123-12-23",
-                      mobilephone="903-456-12-12", workphone="+7(495)120 18 20",
+    contact = Contact(firstname="Анна", lastname="Иванова", address="ул.Смольная, д.18", homephone="(495)123-12-23",
+                      mobilephone="903-456-12-12", workphone="+7(495)120 18 20", secondaryphone="(495)1820",
                       email="rrr@nai.ru", email2="qqq@ya.ru", email3="ttt@erf.org")# создаем объект контакт
     if app.contact.count() == 0:
         app.contact.create(contact)

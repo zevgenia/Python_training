@@ -49,6 +49,14 @@ class ContactHelper:
         wd = self.app.wd
         self.change_field_value("firstname", contact.firstname)
         self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("address", contact.address)
+        self.change_field_value("home", contact.homephone)
+        self.change_field_value("mobile", contact.mobilephone)
+        self.change_field_value("work", contact.workphone)
+        self.change_field_value("email", contact.email)
+        self.change_field_value("email2", contact.email2)
+        self.change_field_value("email3", contact.email3)
+        self.change_field_value("phone2", contact.secondaryphone)
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -93,9 +101,10 @@ class ContactHelper:
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         self.go_to_home_page()
+        self.select_contact_by_index(index)  # click on checkbox
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[7]
-        cell.find_element_by_tag_name("a").click()
+        cell.find_element_by_tag_name("a").click() # click on pencil
 
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
@@ -114,10 +123,10 @@ class ContactHelper:
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
         secondaryphone = wd.find_element_by_name("phone2").get_attribute("value")
-        address = wd.find_elements_by_name("address").list
-        email = wd.find_elements_by_name("email").get_attribute("value")
-        email2 = wd.find_elements_by_name("email2").get_attribute("value")
-        email3 = wd.find_elements_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").text
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         return Contact(firstname=firstname, lastname=lastname, id=id, homephone=homephone, mobilephone=mobilephone,
                        workphone=workphone, secondaryphone=secondaryphone, address=address, email=email,
                        email2=email2, email3=email3)
