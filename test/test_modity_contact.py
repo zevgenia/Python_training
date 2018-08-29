@@ -15,8 +15,6 @@ def test_modify_some_contact(app):
     new_contacts = app.contact.get_contacts_list() # считываем новый список со страницы
     assert len(old_contacts) == app.contact.count()
     old_contacts[index] = contact # меняем контакт в старом списке вручную
-    print("\nold_contacts", old_contacts)
-    print("new_contacts", new_contacts)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
 
 
@@ -30,6 +28,4 @@ def test_modify_first_contact(app):
     new_contacts = app.contact.get_contacts_list() # считываем новый список со страницы
     assert len(old_contacts) == app.contact.count()
     old_contacts[0] = contact # меняем первый контакт в старом списке вручную
-    print("\nold_contacts", old_contacts)
-    print("new_contacts", new_contacts)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)

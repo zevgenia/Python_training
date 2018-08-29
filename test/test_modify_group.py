@@ -14,8 +14,6 @@ def test_modify_group_name1(app):
     assert len(old_groups) == app.group.count()
     old_groups[index] = group
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
-    print("\nold_contacts", old_groups)
-    print("new_contacts", new_groups)
 
 
 def test_modify_group_name2(app):
@@ -29,8 +27,6 @@ def test_modify_group_name2(app):
     assert len(old_groups) == app.group.count()
     old_groups[0] = group
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
-    print("\nold_contacts", old_groups)
-    print("new_contacts", new_groups)
 
 
 #def test_modify_group_header(app):
