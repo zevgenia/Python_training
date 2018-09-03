@@ -89,7 +89,7 @@ class ContactHelper:
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 lastname = cells[1].text
                 firstname = cells[2].text
-                address =  cells[3].text
+                address = cells[3].text
                 all_emails = cells[4].text
                 all_phones = cells[5].text
                 self.contact_cash.append(Contact(lastname=lastname, firstname=firstname, id=id,
