@@ -38,7 +38,9 @@ class SessionHelper:
 
     def get_logged_user(self):
         wd = self.app.wd
-        return self.find_element_by_xpath("//div/div[1]/form/b").text[1:-1] #отрезаем обрамляющие круглые скобки
+        return wd.find_element_by_xpath("//div/div[1]/form/b").text[1:-1] #отрезаем обрамляющие круглые скобки
+#        return wd.find_element_by_xpath("//form[@class ='header']//b").text[1:-1]  # отрезаем обрамляющие круглые скобки
+
 
     # метод проверяет что произошел вход в систему под именем конкретного пользователя
     def ensure_login(self, username, password):
@@ -48,4 +50,4 @@ class SessionHelper:
                 return
             else:
                 self.logout()
-        self.login(username,password)
+        self.login(username, password)
