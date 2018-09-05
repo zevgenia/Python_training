@@ -1,4 +1,4 @@
-from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium import webdriver
 from fixture.session import SessionHelper
 from fixture.group import GroupHelper
 from fixture.contact import ContactHelper
@@ -8,17 +8,25 @@ from fixture.contact import ContactHelper
 class Application:
 
     # создание фикстуры, инициализация драйвера
-    def __init__(self):
-        # self.wd = WebDriver()
-        self.wd = WebDriver(capabilities={"marionette": False})
+    def __init__(self, browser, base_url):
+        if browser == "firefox":
+            self.wd = webdriver.Firefox(capabilities={"marionette": False})
+        elif browser == "chrome":
+            self.wd = webdriver.Chrome()
+        elif browser == "ie":
+            self.wd = webdriver.Ie
+#            self.wd.implicitly_wait(60)
+        else:
+            raise ValueError("Unrecognized browser %s", browser)
         # конструирование помощников, передаем ссылку на саму фикстуру
         self.session = SessionHelper(self)# помощник сесссий получает ссылку на объект класса Application
         self.group = GroupHelper(self)# помощник групп получает ссылку на объект класса Application
         self.contact = ContactHelper(self)# помощник контактов получает ссылку на объект класса Application
+        self.base_url = base_url
 
     def open_home_page(self): # метод навигации, кандидат на перенос в соответ.помощник
         wd = self.wd
-        wd.get("http://localhost/addressbook/")
+        wd.get(self.base_url)
 
     # метод разрушает фикстуру, останавливает браузер
     def destroy(self):
