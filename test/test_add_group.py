@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
-import pytest
-from data.add_group import testdata as testdata
 
 
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_group(app, group):
+
+def test_add_group(app, data_groups_const):
+    group = data_groups_const
     old_groups = app.group.get_groups_list() #получаем список со страницы
     app.group.create(group) #создаем новую группу с полученными параметрами
     new_groups = app.group.get_groups_list() # получаем новый список со страницы
