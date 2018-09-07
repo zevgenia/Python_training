@@ -2,6 +2,7 @@ import json
 import pytest
 from fixture.application import Application
 import importlib
+import jsonpickle
 
 fixture = None
 target = None
@@ -54,4 +55,5 @@ def load_from_module(module): # data_groups_const - загрузка из мод
 
 
 def load_from_json(file): # json_groups - загрузка из json-файла
-    return importlib.import_module("data.%s" % module).testdata
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
+        return jsonpickle.decode(f.read())
