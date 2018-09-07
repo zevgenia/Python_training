@@ -3,8 +3,8 @@ from model.group import Group
 
 
 
-def test_add_group(app, data_groups_const):
-    group = data_groups_const
+def test_add_group(app, json_groups): #json_groups загрузка из json-файла
+    group = json_groups
     old_groups = app.group.get_groups_list() #получаем список со страницы
     app.group.create(group) #создаем новую группу с полученными параметрами
     new_groups = app.group.get_groups_list() # получаем новый список со страницы
