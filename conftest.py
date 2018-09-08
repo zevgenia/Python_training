@@ -4,10 +4,10 @@ from fixture.application import Application
 import importlib
 import jsonpickle
 from fixture.db import DbFixture
+import os.path
 
 fixture = None
 target = None
-import os.path
 
 
 def load_config(file):
