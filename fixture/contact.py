@@ -79,7 +79,7 @@ class ContactHelper:
     contact_cash = None
 
     # получение списка контактов со страницы
-    def get_contact_list(self):
+    def get_contacts_list(self):
         if self.contact_cash is None:
             wd = self.app.wd
             self.go_to_home_page()

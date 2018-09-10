@@ -11,7 +11,7 @@ def test_check_contact_between_home_page_edit_page(app):
         app.contact.create(contact)
     index = randrange(app.contact.count())
     print(str(index))
-    contact_from_home_page = app.contact.get_contact_list()[index] # информация о контакте с гл.страницы
+    contact_from_home_page = app.contact.get_contacts_list()[index] # информация о контакте с гл.страницы
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)#информация о контакте с edit page
     assert contact_from_home_page.lastname == contact_from_edit_page.lastname
     assert contact_from_home_page.firstname == contact_from_edit_page.firstname
