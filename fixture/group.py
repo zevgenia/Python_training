@@ -83,7 +83,7 @@ class GroupHelper:
     group_cash = None
 
     # посчитать количество групп на странице
-    def get_groups_list(self):
+    def get_group_list(self):
         if self.group_cash is None:
             wd = self.app.wd
             self.open_groups_page()

@@ -34,7 +34,7 @@ def app(request):
 
 
 @pytest.fixture(scope="session") #инициализируем фикстуру в начале сессии
-def db(request):
+def db(request): # метод для инициализации фикстуры
     db_config = load_config(request.config.getoption("--target"))['db']
     dbfixture = DbFixture(host=db_config['host'], name=db_config['name'], user=db_config['user'],
                           password=db_config['password'])

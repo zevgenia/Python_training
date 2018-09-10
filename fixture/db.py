@@ -4,7 +4,7 @@ from model.contact import Contact
 
 
 class DbFixture:
-
+    # конструктор фикстуры
     def __init__(self, host, name, user, password):
         self.host = host
         self.name = name
@@ -12,7 +12,7 @@ class DbFixture:
         self.password = password
         self.connection = pymysql.connect(host=host, database=name, user=user, password=password)
 
-    def get_group_list(self):
+    def get_group_list(self): # загружает информацию о группах из БД
         list = []
         cursor = self.connection.cursor()
         try:
@@ -24,12 +24,12 @@ class DbFixture:
             cursor.close()
         return list
 
-    def get_contact_list(self):
+    def get_contact_list(self): # загружает информацию о контактах из БД
         list = []
         cursor = self.connection.cursor()
         try:
             cursor.execute("select id, firstname, lastname, address, mobile, email from addressbook "
-                           "WHERE deprecated = '0000-00-00-00'")
+                           "WHERE deprecated = '0000-00-00'")
             for row in cursor.fetchall():
                 (id, firstname, lastname, address, mobile, email) = row
                 list.append(Contact(id=str(id), firstname=firstname, lastname=lastname, address=address,
