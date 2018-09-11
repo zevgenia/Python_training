@@ -1,4 +1,5 @@
 from model.group import Group
+import re
 
 # Помощник групп, содержит все вспомогательные методы, которые относятся к работе с группами
 class GroupHelper:
@@ -118,3 +119,9 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cash.append(Group(name=text, id=id))
         return list(self.group_cash)
+
+    def clean_name(self):
+        def clean(group):
+            return Group(id=group.id, name=(re.sub("\s{2,}", " ", group.name)).strip())
+
+        return clean

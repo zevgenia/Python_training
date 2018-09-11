@@ -1,7 +1,6 @@
 from model.group import Group
-from random import randrange
+# from random import randrange
 import random
-import re
 
 
 def test_modify_group_name(app, db, check_ui): #модификация случайной группы
@@ -20,9 +19,7 @@ def test_modify_group_name(app, db, check_ui): #модификация случ�
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
     if check_ui:
         ui_list = app.group.get_groups_list()  # список, загруженный через UI##
-
-        def clean(group):
-            return Group(id=group.id, name=(re.sub("\s{2,}", " ", group.name)).strip())
+        clean = app.group.clean_name()
         db_list = map(clean, db.get_group_list())  # список, загруженный через БД
         assert sorted(db_list, key=Group.id_or_max) == sorted(ui_list, key=Group.id_or_max)
 
