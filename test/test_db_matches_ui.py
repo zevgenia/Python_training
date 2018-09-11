@@ -10,13 +10,11 @@ def test_group_list(app, db):
     def clean(group):
         return Group(id=group.id, name=(re.sub("\s{2,}", " ", group.name)).strip())
     db_list = map(clean, db.get_group_list())  # список, загруженный через БД
-#    db_list = db.get_group_list()  # список, загруженный через БД
     list_ui = deepcopy(ui_list)
     list_db = deepcopy(db_list)
     print("\nafter_ui_list", list_ui)
     print("\nafter_db_list", list(list_db))
     assert sorted(ui_list, key=Group.id_or_max) == sorted(db_list, key=Group.id_or_max)
-
 
 
 def test_contact_list(app, db):
