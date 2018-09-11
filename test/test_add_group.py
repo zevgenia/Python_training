@@ -15,5 +15,3 @@ def test_add_group(app, db, json_groups, check_ui): #json_groups загрузк�
         db_list = map(clean, db.get_group_list())  # список, загруженный через БД
         assert sorted(db_list, key=Group.id_or_max) == sorted(ui_list, key=Group.id_or_max)
 
-
-
