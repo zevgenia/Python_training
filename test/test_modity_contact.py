@@ -11,7 +11,6 @@ def test_modify_some_contact(app, db, check_ui): #проверки из БД
     old_contacts = db.get_contact_list() # считываем старый список со страницы
     old_contact = random.choice(old_contacts)
     contact.id = old_contact.id #добавляем недостающий id в новый контакт
-    print(contact.id)
     app.contact.modify_contact_by_id(old_contact.id, contact) # передаем объект в функцию модификации
     new_contacts = db.get_contact_list() # считываем новый список со страницы
     assert len(old_contacts) == len(db.get_contact_list())
@@ -24,8 +23,6 @@ def test_modify_some_contact(app, db, check_ui): #проверки из БД
         clean = app.contact.clean_contact() # очистка от лишних пробелов
         db_list = map(clean, db.get_contact_list())  # список, загруженный через БД
         assert sorted(ui_list, key=Contact.id_or_max) == sorted(db_list, key=Contact.id_or_max)
-        print(ui_list)
-        print(db_list)
 
 
 #def test_modify_some_contact(app): #проверки из интерфейса

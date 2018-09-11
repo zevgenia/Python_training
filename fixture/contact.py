@@ -41,18 +41,20 @@ class ContactHelper:
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
+        self.go_to_home_page()
         wd.find_elements_by_name("selected[]")[index].click()
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
+        self.go_to_home_page()
         wd.find_element_by_css_selector("input[id='%s']" % id).click()
-        #wd.find_element_by_xpath("//table[@id='maintable']//input[id='%s']" % id).click()
 
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(0, new_contact_data)
 
     def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
+        self.go_to_home_page()
         self.select_contact_by_index(index) # click on checkbox
         self.open_contact_to_edit_by_index(index)  # click on pencil
         self.fill_contact_form(new_contact_data)
@@ -62,6 +64,7 @@ class ContactHelper:
 
     def modify_contact_by_id(self, id, new_contact_data):
         wd = self.app.wd
+        self.go_to_home_page()
         self.select_contact_by_id(id) # click on checkbox
         self.open_contact_to_edit_by_id(id)  # click on pencil
         self.fill_contact_form(new_contact_data)
@@ -134,10 +137,6 @@ class ContactHelper:
     def open_contact_to_edit_by_id(self, id):
         wd = self.app.wd
         self.go_to_home_page()
-       # wd.find_element_by_css_selector("a[href='http://localhost/addressbook/edit.php?id='%s']" % id).click()
-       # wd.find_element_by_xpath("a=[edit.php?id='%s']" % id).click()  # click on pencil
-        #wd.find_element_by_css_selector("a:contains('edit.php?id='444')").click()
-       # wd.find_element_by_css_selector("a[id^='edit.php\?'%s'']" % id).click()
         wd.find_element_by_xpath("//table[@id='maintable']//a[@href='edit.php?id=%s']" % id).click()
 
     def open_contact_view_by_index(self, index):
