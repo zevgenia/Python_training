@@ -13,8 +13,8 @@ def test_check_contact_between_home_page_edit_page(app):
     print(str(index))
     contact_from_home_page = app.contact.get_contacts_list()[index] # информация о контакте с гл.страницы
     contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)#информация о контакте с edit page
-    assert contact_from_home_page.lastname == contact_from_edit_page.lastname
-    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
+    assert contact_from_home_page.lastname == clean(contact_from_edit_page.lastname)
+    assert contact_from_home_page.firstname == clean(contact_from_edit_page.firstname)
     assert contact_from_home_page.address.strip() == merge_address_like_from_home_page(contact_from_edit_page.address)
     assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_from_home_page(contact_from_edit_page)
     assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_from_home_page(contact_from_edit_page)
@@ -43,6 +43,11 @@ def merge_emails_like_from_home_page(contact):
 
 
 def merge_address_like_from_home_page(contact):
+    contact = re.sub("\s{2,}", " ", contact)  # заменяем множественные пробелы (от 2х) на 1 пробел
+    contact = contact.strip()  # убираем пробел в начале и в конце
+    return contact
+
+def clean(contact):
     contact = re.sub("\s{2,}", " ", contact)  # заменяем множественные пробелы (от 2х) на 1 пробел
     contact = contact.strip()  # убираем пробел в начале и в конце
     return contact
