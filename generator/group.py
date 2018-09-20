@@ -30,8 +30,7 @@ def random_string(prefix, maxlen):  #генератор случайных ст�
 
 
 # тестовые данные генерируются с помощью генератора случайных строк
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string("name", 10), header=random_string("header", 20), footer=random_string("footer", 20))
+testdata = [Group(name=random_string("name", 10), header=random_string("header", 20), footer=random_string("footer", 20))
     for i in range(n)
 ]
 

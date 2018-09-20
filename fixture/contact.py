@@ -49,6 +49,11 @@ class ContactHelper:
         self.go_to_home_page()
         wd.find_element_by_css_selector("input[id='%s']" % id).click()
 
+    def select_group_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[@class='right']/select//option['%s']" % id).is_selected()
+        wd.find_element_by_xpath("//div[@class='right']/select//option['%s']" % id).click()
+
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(0, new_contact_data)
 
@@ -96,6 +101,12 @@ class ContactHelper:
         wd = self.app.wd
         if not (wd.current_url.endswith("/index.php") and wd.find_element_by_xpath("//div[@id='search-az']/form/input")):
             wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
+
+    def go_to_home_page_all_contacts(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
+        if not wd.find_element_by_xpath("//form[@id='right']/select//option[1]").is_selected():
+            wd.find_element_by_xpath("//form[@id='right']/select//option[1]").click()
 
     # посчитать сколько чек-боксов на странице
     def count(self):
@@ -192,3 +203,15 @@ class ContactHelper:
                            mobilephone=(re.sub("\s{2,}", " ", contact.mobilephone)).strip())
 
         return clean
+
+    def add_contact_to_group_by_id(self, group_id, contact_id):
+        wd = self.app.wd
+        self.go_to_home_page_all_contacts()
+        self.select_group_by_id(group_id)
+        self.select_contact_by_id(contact_id)
+        wd.find_element_by_name("add").click()
+        self.go_to_home_page_all_contacts()
+
+    def return_to_groups_page(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[@class='msgbox']//a[@href='./?group=%s']" % id).click()
