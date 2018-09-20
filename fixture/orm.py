@@ -31,7 +31,7 @@ class ORMFixture:
         email2 = Optional(str, column='email2')
         email3 = Optional(str, column='email3')
         deprecated = Optional(datetime, column='deprecated')
-        groups = Set(lambda: ORMFixture.ORMGroup, table='address_in_groups', column='group_id', reverse='contacts')
+        groups = Set(lambda: ORMFixture.ORMGroup, table='address_in_groups', column='group_id', reverse='contacts', lazy=True)
 
     def __init__(self, host, name, user, password):
         self.db.bind('mysql', host=host, database=name, user=user, password=password)

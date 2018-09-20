@@ -44,6 +44,17 @@ def db(request): # метод для инициализации фикстуры
     return dbfixture
 
 
+@pytest.fixture(scope="session") #инициализируем фикстуру в начале сессии
+def orm(request): # метод для инициализации фикстуры
+    orm_config = load_config(request.config.getoption("--target"))['db']
+    ormfixture = DbFixture(host=orm_config['host'], name=orm_config['name'], user=orm_config['user'],
+                          password=orm_config['password'])
+    def fin():
+        pass #ormfixture.destroy()
+    request.addfinalizer(fin)
+    return ormfixture
+
+
 @pytest.fixture(scope="session", autouse=True)
 def stop(request):
     def fin():
