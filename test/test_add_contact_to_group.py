@@ -12,28 +12,24 @@ def test_add_contact_to_group(app, db, orm):
     #проверка есть ли группы
     if len(db.get_group_list()) == 0: #Если нет, добавить группу
         app.group.create(Group(name="Моя группа"))
-    #выбираем случайный контакт и случайную группу
-    contacts_list = db.get_contact_list()  #получаем список контактов
-    cont = random.choice(contacts_list)
-    groups_list = db.get_group_list() #получаем список групп
-    contacts_in_group_old, group = match_contact_to_group(app, cont, groups_list, orm)
-    contacts_in_group_new = orm.get_contacts_in_group(group.id)
-    assert sorted(contacts_in_group_old, key=Contact.id_or_max) == sorted(contacts_in_group_new, key=Contact.id_or_max)
+    status = False
+    while status False
+        cont = random.choice(db.get_contact_list())
+        group = random.choice(db.get_group_list())
+        contacts_not_in_group = orm.get_contacts_not_in_group(Group(id=group.id))
+        if cont in contacts_not_in_group:
+            groups_list_old = len(orm.get_contacts_not_in_group(Group(id=group.id)))
+            app.contact.add_contact_to_group_by_id(group.id, cont.id)
+            groups_list_new = len(orm.get_contacts_not_in_group(Group(id=group.id)))
+            print("группа", group.id)
+            print("\ngroups_list_old", groups_list_old)
+            print("\ngroups_list_new", groups_list_new)
+            status = True
+        else:
+            print("надо выбрать новый контакт")
+    print("группа", group.id)
+    print("\ngroups_list_old", groups_list_old)
+    print("\ngroups_list_new", groups_list_new)
+#    assert sorted(groups_list_old, key=Contact.id_or_max) == sorted(groups_list_new, key=Contact.id_or_max)
 
 
-def match_contact_to_group(app, cont, groups_list, orm):
-    contacts_in_group_old = []
-    for group in groups_list:
-        try:
-            l = orm.get_contacts_not_in_group(
-                Group(id=group.id))  # провекряем какие контакты еще не входят в эту группу
-            if cont in l:
-                print("подошли контакт и группа", cont.id, group.id)
-                contacts_in_group_old = orm.get_contacts_in_group(
-                    Group(id=group.id))  # получаем старый список контактов в группе
-                app.contact.add_contact_to_group_by_id(group.id, cont.id)  # добавляем контакт в группу
-                return (contacts_in_group_old, group)
-                break
-        finally:
-            pass  # db.destroy()
-    return contacts_in_group_old, cont.id, group.id
