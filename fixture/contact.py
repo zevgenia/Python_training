@@ -1,6 +1,7 @@
 from model.contact import Contact
 from selenium.webdriver.support.ui import Select
 import re
+import time
 
 # Помощник контактов, содержит все вспомогательные методы, которые относятся к работе с контактами
 class ContactHelper:
@@ -52,9 +53,9 @@ class ContactHelper:
 
     def select_group_by_id(self, id):
         wd = self.app.wd
-        Select(wd.find_element_by_name("to_group")).select_by_visible_text("Друзья")
-#        wd.find_element_by_css_selector("select[@name='to group']").click()
-#        wd.find_element_by_xpath("//select//option['3']").is_selected() and
+        select = Select(wd.find_element_by_name("to_group"))
+        select.select_by_value('%s' % id)
+      #       select = Select(self.driver.find_element_by_xpath('//*[@id="content"]/form[2]/div[4]/select'))
 
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(0, new_contact_data)
@@ -208,7 +209,7 @@ class ContactHelper:
 
     def add_contact_to_group_by_id(self, group_id, contact_id):
         wd = self.app.wd
-        self.go_to_home_page()
+        self.go_to_home_page_all_contacts()
         self.select_group_by_id(group_id)
         self.select_contact_by_id(contact_id)
         wd.find_element_by_name("add").click()
@@ -216,4 +217,4 @@ class ContactHelper:
 
     def return_to_groups_page(self, id):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div[@class='msgbox']//a[@href='./?group=%s']" % id).click()
+        wd.find_element_by_xpath("//div[@class='msgbox']//a[@href='./?group='%s']'" % id).click()
