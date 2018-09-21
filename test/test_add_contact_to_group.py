@@ -12,24 +12,38 @@ def test_add_contact_to_group(app, db, orm):
     #проверка есть ли группы
     if len(db.get_group_list()) == 0: #Если нет, добавить группу
         app.group.create(Group(name="Моя группа"))
+    groups_list_old = []
+    group_id = 0
+    cont_id = 0
+    global status
     status = False
-    while status False
+    while status is False:
         cont = random.choice(db.get_contact_list())
         group = random.choice(db.get_group_list())
         contacts_not_in_group = orm.get_contacts_not_in_group(Group(id=group.id))
         if cont in contacts_not_in_group:
-            groups_list_old = len(orm.get_contacts_not_in_group(Group(id=group.id)))
+            group_id = group.id
+            cont_id = cont.id
+            groups_list_old = orm.get_contacts_not_in_group(Group(id=group.id))
+            for item in groups_list_old:
+                print("этого контакта", item.id, "нет в группе", group_id, group.name)
             app.contact.add_contact_to_group_by_id(group.id, cont.id)
-            groups_list_new = len(orm.get_contacts_not_in_group(Group(id=group.id)))
-            print("группа", group.id)
-            print("\ngroups_list_old", groups_list_old)
-            print("\ngroups_list_new", groups_list_new)
+            print("добавляем контакт", cont_id, " в группу",  group_id, group.name)
+            groups_list_new = orm.get_contacts_in_group(Group(id=group.id))
+            print("теперь в группе", group.id, "находятся контакты")
+            for item in groups_list_new:
+                print(item)
+            return (groups_list_old, cont_id, group_id, )
             status = True
-        else:
-            print("надо выбрать новый контакт")
-    print("группа", group.id)
-    print("\ngroups_list_old", groups_list_old)
-    print("\ngroups_list_new", groups_list_new)
+            #break
+        print("продолжаем выбирать")
+        continue
+
+    print("вернули id контакта и группы, старый список контактов в группу", groups_list_old, cont_id, group_id, )
+
+    groups_list_new = orm.get_contacts_in_group(Group(id=group_id))
+    if cont_id in groups_list_new:
+            print("группа добавлена")
 #    assert sorted(groups_list_old, key=Contact.id_or_max) == sorted(groups_list_new, key=Contact.id_or_max)
 
 
