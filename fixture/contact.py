@@ -218,3 +218,21 @@ class ContactHelper:
         wd = self.app.wd
         select = Select(wd.find_element_by_name("group"))
         select.select_by_visible_text('[all]')
+
+    def del_contact_from_group_by_id(self, group_id, contact_id):
+        wd = self.app.wd
+        self.go_to_group_page(group_id)
+        self.select_contact_by_id(contact_id)
+        self.del_contact_from_group(group_id)
+        self.return_to_groups_page(group_id)
+        self.go_to_home_page_all_contacts()
+
+    def go_to_group_page(self, id):
+        wd = self.app.wd
+        select = Select(wd.find_element_by_name("group"))
+        select.select_by_value("%s" % id)
+
+    def del_contact_from_group(self, id):
+        wd = self.app.wd
+        # submit remove
+        wd.find_element_by_name("remove").click()
