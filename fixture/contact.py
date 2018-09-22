@@ -41,22 +41,6 @@ class ContactHelper:
         self.go_to_home_page()
         self.contact_cash = None
 
-    def select_contact_by_index(self, index):
-        wd = self.app.wd
-        self.go_to_home_page()
-        wd.find_elements_by_name("selected[]")[index].click()
-
-    def select_contact_by_id(self, id):
-        wd = self.app.wd
-        self.go_to_home_page()
-        wd.find_element_by_css_selector("input[id='%s']" % id).click()
-
-    def select_group_by_id(self, id):
-        wd = self.app.wd
-        select = Select(wd.find_element_by_name("to_group"))
-        select.select_by_value('%s' % id)
-      #       select = Select(self.driver.find_element_by_xpath('//*[@id="content"]/form[2]/div[4]/select'))
-
     def modify_first_contact(self, new_contact_data):
         self.modify_contact_by_index(0, new_contact_data)
 
@@ -80,6 +64,22 @@ class ContactHelper:
         self.go_to_home_page()
         self.contact_cash = None
 
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        self.go_to_home_page()
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        self.go_to_home_page()
+        wd.find_element_by_css_selector("input[id='%s']" % id).click()
+
+    def select_group_by_id(self, id):
+        wd = self.app.wd
+        select = Select(wd.find_element_by_name("to_group"))
+        select.select_by_value('%s' % id)
+        wd.find_element_by_name("add").click()
+
     def fill_contact_form(self, contact):
         wd = self.app.wd
         self.change_field_value("firstname", contact.firstname)
@@ -100,16 +100,6 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def go_to_home_page(self):
-        wd = self.app.wd
-        if not (wd.current_url.endswith("/index.php") and wd.find_element_by_xpath("//div[@id='search-az']/form/input")):
-            wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
-
-    def go_to_home_page_all_contacts(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
-        if not wd.find_element_by_xpath("//form[@id='right']/select//option[1]").is_selected():
-            wd.find_element_by_xpath("//form[@id='right']/select//option[1]").click()
 
     # посчитать сколько чек-боксов на странице
     def count(self):
@@ -145,7 +135,6 @@ class ContactHelper:
         row = wd.find_elements_by_name("entry")[index]
         cell = row.find_elements_by_tag_name("td")[7]
         cell.find_element_by_tag_name("a").click() # click on pencil
-
 
     # откытие страницы редактирования контакта - id
     def open_contact_to_edit_by_id(self, id):
@@ -209,12 +198,23 @@ class ContactHelper:
 
     def add_contact_to_group_by_id(self, group_id, contact_id):
         wd = self.app.wd
+        self.go_to_home_page()
         self.go_to_home_page_all_contacts()
-        self.select_group_by_id(group_id)
         self.select_contact_by_id(contact_id)
-        wd.find_element_by_name("add").click()
+        self.select_group_by_id(group_id)
+        self.return_to_groups_page(group_id)
         self.go_to_home_page_all_contacts()
 
     def return_to_groups_page(self, id):
         wd = self.app.wd
-        wd.find_element_by_xpath("//div[@class='msgbox']//a[@href='./?group='%s']'" % id).click()
+        wd.find_element_by_xpath("//div[@class='msgbox']//a[@href='./?group=%s']" % id).click()
+
+    def go_to_home_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/index.php") and wd.find_element_by_xpath("//div[@id='search-az']/form/input")):
+            wd.find_element_by_xpath("//div[@id='nav']//a[.='home']").click()
+
+    def go_to_home_page_all_contacts(self):
+        wd = self.app.wd
+        select = Select(wd.find_element_by_name("group"))
+        select.select_by_visible_text('[all]')
